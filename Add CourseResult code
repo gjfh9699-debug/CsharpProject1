@@ -1,0 +1,95 @@
+using System;
+
+class CourseResult
+{
+    public string StudentName { get; set; }
+
+    private double mark;
+
+    public double Mark
+    {
+        get
+        {
+            return mark;
+        }
+        set
+        {
+            if (value >= 0 && value <= 100)
+            {
+                mark = value;
+            }
+            else
+            {
+                throw new ArgumentException("Mark must be between 0 and 100.");
+            }
+        }
+    }
+
+    public char Grade
+    {
+        get
+        {
+            if (Mark >= 90)
+                return 'A';
+            else if (Mark >= 80)
+                return 'B';
+            else if (Mark >= 70)
+                return 'C';
+            else if (Mark >= 60)
+                return 'D';
+            else
+                return 'F';
+        }
+    }
+
+    public bool Passed
+    {
+        get
+        {
+            return Mark >= 50;
+        }
+    }
+
+    public void PrintResult()
+    {
+        Console.WriteLine("Student Name: " + StudentName);
+        Console.WriteLine("Mark: " + Mark);
+        Console.WriteLine("Grade: " + Grade);
+        Console.WriteLine("Passed: " + Passed);
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        CourseResult student = new CourseResult();
+
+        Console.Write("Enter student name: ");
+        student.StudentName = Console.ReadLine();
+
+        Console.Write("Enter mark: ");
+        double mark = Convert.ToDouble(Console.ReadLine());
+
+        try
+        {
+            student.Mark = mark;
+            student.PrintResult();
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+        Console.WriteLine("Testing invalid mark:");
+
+        try
+        {
+            student.Mark = 120;
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}
